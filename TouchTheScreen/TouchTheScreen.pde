@@ -16,7 +16,7 @@ void setup() {
   yStart = random(10);
   rectMode(CENTER);
   colorMode(HSB);
-  img = loadImage("download.jpg");
+  img = loadImage("CAT.jpg");
 
 
 
@@ -55,11 +55,11 @@ void draw() {
   lastx=lerp(lastx, a, 0.04);
   lasty=lerp(lasty, b, 0.06);
 
-  for (int y=0; y<=224; y+=onemorescale) {
-    for (int x=0; x<=225; x+= onemorescale) {
+  for (int y=0; y<=500; y+=onemorescale) {
+    for (int x=0; x<=500; x+= onemorescale) {
       pushMatrix();
-      translate(600+x,800+y);
-      float distant = dist(lastx, lasty,600+x,800+y);
+      translate(1200+x,500+y);
+      float distant = dist(lastx, lasty,1200+x,500+y);
       
       if (distant<=fade){
         color c = img.get(int(x),int(y));
