@@ -16,7 +16,7 @@ void setup() {
   yStart = random(10);
   rectMode(CENTER);
   colorMode(HSB);
-  img = loadImage("CAT.jpg");
+  img = loadImage("THE.jpg");
 
 
 
@@ -58,12 +58,12 @@ void draw() {
   for (int y=0; y<=500; y+=onemorescale) {
     for (int x=0; x<=500; x+= onemorescale) {
       pushMatrix();
-      translate(1200+x,500+y);
-      float distant = dist(lastx, lasty,1200+x,500+y);
+      translate(800+x,700+y);
+      float distant = dist(lastx, lasty,800+x,700+y);
       
       if (distant<=fade){
         color c = img.get(int(x),int(y));
-        fill(c);
+        fill(c,25);
         ellipse(0,0,onemorescale,onemorescale);
       }
       popMatrix();
@@ -86,7 +86,7 @@ void draw() {
 
       float distant = dist(lastx, lasty, x, y);
 
-      if (distant<=fade&& (NoiseVal*50)>15) {
+      if (distant<=fade&& (NoiseVal*50)>25) {
         drawPointRotate(x, y, NoiseVal, scl);
       }
       //if (distant<=fade&& (NoiseVal*50)>25){
