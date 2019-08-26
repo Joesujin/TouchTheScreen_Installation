@@ -1,4 +1,4 @@
-float xNoise, yNoise, xStart, yStart, scl;
+float xNoise, yNoise, xStart, yStart, scl,onemorescale;
 float xstartNoise, ystartNoise;
 float a, b, lastx, lasty;
 float fade;
@@ -10,12 +10,13 @@ void setup() {
   size(displayWidth, displayHeight, P2D);
   strokeWeight(1);
   scl = 12;
+  onemorescale =5;
   noFill();
   xStart = random(10);
   yStart = random(10);
   rectMode(CENTER);
   colorMode(HSB);
-  img = loadImage("pralay.png");
+  img = loadImage("download.jpg");
 
 
 
@@ -28,8 +29,7 @@ void draw() {
   noStroke();
   rect(0, 0, width*2, height*2);
   //background(0);
-  loadPixels();
-  img.loadPixels();
+
 
   xstartNoise += 0.008;
   ystartNoise += 0.008;
@@ -55,34 +55,53 @@ void draw() {
   lastx=lerp(lastx, a, 0.04);
   lasty=lerp(lasty, b, 0.06);
 
+  for (int y=0; y<=224; y+=onemorescale) {
+    for (int x=0; x<=225; x+= onemorescale) {
+      pushMatrix();
+      translate(600+x,800+y);
+      float distant = dist(lastx, lasty,600+x,800+y);
+      
+      if (distant<=fade){
+        color c = img.get(int(x),int(y));
+        fill(c);
+        ellipse(0,0,onemorescale,onemorescale);
+      }
+      popMatrix();
+      
+    }
+  }
+  
+
   for (float y=0; y<=height; y+=scl) {
     yNoise += 0.07;
     xNoise = xStart;
     for (float x=0; x<=width; x+=scl) {
       xNoise += 0.07;
-      int loc = int(x+y*width);
+
 
       float NoiseVal = noise(xNoise, yNoise);
       //float lerpX= lerp(x,a,0.06);
       //float lerpY= lerp(y,b,0.06);
-      pixels[loc] = img.pixels[loc];
+
 
       float distant = dist(lastx, lasty, x, y);
 
       if (distant<=fade&& (NoiseVal*50)>15) {
         drawPointRotate(x, y, NoiseVal, scl);
-        
       }
-      if(distant<=fade&& (NoiseVal*50)<15){
-        pixels[loc] = img.pixels[loc];
-      }
+      //if (distant<=fade&& (NoiseVal*50)>25){
+      //  color c = img.get(int(x),int(y));
+      //  fill(c);
+      //  ellipse(x,y,2,2);
+      //}
+      
       //else{
       //drawPoint(x, y, NoiseVal, scl);
       //}
       //println(NoiseVal*255);
     }
   }
-   updatePixels();
+
 
   fade-=0.1;
 }
