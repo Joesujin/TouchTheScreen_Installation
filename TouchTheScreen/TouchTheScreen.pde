@@ -16,7 +16,7 @@ void setup() {
   yStart = random(10);
   rectMode(CENTER);
   colorMode(HSB);
-  img = loadImage("CAT.jpg");
+  img = loadImage("KILLED.jpg");
 
 
 
@@ -58,8 +58,8 @@ void draw() {
   for (int y=0; y<=500; y+=onemorescale) {
     for (int x=0; x<=500; x+= onemorescale) {
       pushMatrix();
-      translate(1200+x,500+y);
-      float distant = dist(lastx, lasty,1200+x,500+y);
+      translate(1300+x,y-100);
+      float distant = dist(lastx, lasty,1300+x,y-100);
       
       if (distant<=fade){
         color c = img.get(int(x),int(y));
