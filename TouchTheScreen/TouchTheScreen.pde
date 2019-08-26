@@ -1,20 +1,25 @@
-float xNoise, yNoise, xStart, yStart, scl;
+float xNoise, yNoise, xStart, yStart, scl,onemorescale;
 float xstartNoise, ystartNoise;
-float a, b,lastx,lasty;
+float a, b, lastx, lasty;
 float fade;
+PImage img;
+
 
 
 void setup() {
   size(displayWidth, displayHeight, P2D);
   strokeWeight(1);
   scl = 12;
+  onemorescale =5;
   noFill();
   xStart = random(10);
   yStart = random(10);
   rectMode(CENTER);
   colorMode(HSB);
-  
-  
+  img = loadImage("CAT.jpg");
+
+
+
   xstartNoise = random(20);
   ystartNoise = random(20);
 }
@@ -24,6 +29,7 @@ void draw() {
   noStroke();
   rect(0, 0, width*2, height*2);
   //background(0);
+
 
   xstartNoise += 0.008;
   ystartNoise += 0.008;
@@ -37,7 +43,7 @@ void draw() {
   yNoise = yStart;
   if (mousePressed ==true) {
     fade =250;
-  } else if(fade <= 20) {
+  } else if (fade <= 20) {
     textSize(150);
     fill(140);
     text("Touch The Screen", 100, 250);
@@ -49,11 +55,29 @@ void draw() {
   lastx=lerp(lastx, a, 0.04);
   lasty=lerp(lasty, b, 0.06);
 
+  for (int y=0; y<=500; y+=onemorescale) {
+    for (int x=0; x<=500; x+= onemorescale) {
+      pushMatrix();
+      translate(1200+x,500+y);
+      float distant = dist(lastx, lasty,1200+x,500+y);
+      
+      if (distant<=fade){
+        color c = img.get(int(x),int(y));
+        fill(c);
+        ellipse(0,0,onemorescale,onemorescale);
+      }
+      popMatrix();
+      
+    }
+  }
+  
+
   for (float y=0; y<=height; y+=scl) {
     yNoise += 0.07;
     xNoise = xStart;
     for (float x=0; x<=width; x+=scl) {
       xNoise += 0.07;
+
 
       float NoiseVal = noise(xNoise, yNoise);
       //float lerpX= lerp(x,a,0.06);
@@ -62,17 +86,22 @@ void draw() {
 
       float distant = dist(lastx, lasty, x, y);
 
-      if (distant<=fade&& (NoiseVal*50)>10) {
+      if (distant<=fade&& (NoiseVal*50)>15) {
         drawPointRotate(x, y, NoiseVal, scl);
-         
-
       }
+      //if (distant<=fade&& (NoiseVal*50)>25){
+      //  color c = img.get(int(x),int(y));
+      //  fill(c);
+      //  ellipse(x,y,2,2);
+      //}
+      
       //else{
       //drawPoint(x, y, NoiseVal, scl);
       //}
       //println(NoiseVal*255);
     }
   }
+
 
   fade-=0.1;
 }
