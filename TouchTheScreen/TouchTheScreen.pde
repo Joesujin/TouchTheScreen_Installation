@@ -1,7 +1,9 @@
 float xNoise, yNoise, xStart, yStart, scl;
 float xstartNoise, ystartNoise;
-float a, b,lastx,lasty;
+float a, b, lastx, lasty;
 float fade;
+PImage img;
+
 
 
 void setup() {
@@ -13,8 +15,10 @@ void setup() {
   yStart = random(10);
   rectMode(CENTER);
   colorMode(HSB);
-  
-  
+  img = loadImage("pralay.png");
+
+
+
   xstartNoise = random(20);
   ystartNoise = random(20);
 }
@@ -24,6 +28,8 @@ void draw() {
   noStroke();
   rect(0, 0, width*2, height*2);
   //background(0);
+  loadPixels();
+  img.loadPixels();
 
   xstartNoise += 0.008;
   ystartNoise += 0.008;
@@ -37,7 +43,7 @@ void draw() {
   yNoise = yStart;
   if (mousePressed ==true) {
     fade =250;
-  } else if(fade <= 20) {
+  } else if (fade <= 20) {
     textSize(150);
     fill(140);
     text("Touch The Screen", 100, 250);
@@ -54,18 +60,21 @@ void draw() {
     xNoise = xStart;
     for (float x=0; x<=width; x+=scl) {
       xNoise += 0.07;
+      int loc = int(x+y*width);
 
       float NoiseVal = noise(xNoise, yNoise);
       //float lerpX= lerp(x,a,0.06);
       //float lerpY= lerp(y,b,0.06);
-
+      pixels[loc] = img.pixels[loc];
 
       float distant = dist(lastx, lasty, x, y);
 
-      if (distant<=fade&& (NoiseVal*50)>10) {
+      if (distant<=fade&& (NoiseVal*50)>15) {
         drawPointRotate(x, y, NoiseVal, scl);
-         
-
+        
+      }
+      if(distant<=fade&& (NoiseVal*50)<15){
+        pixels[loc] = img.pixels[loc];
       }
       //else{
       //drawPoint(x, y, NoiseVal, scl);
@@ -73,6 +82,7 @@ void draw() {
       //println(NoiseVal*255);
     }
   }
+   updatePixels();
 
   fade-=0.1;
 }
