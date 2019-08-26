@@ -16,7 +16,7 @@ void setup() {
   yStart = random(10);
   rectMode(CENTER);
   colorMode(HSB);
-  img = loadImage("CAT.jpg");
+  img = loadImage("what.jpg");
 
 
 
@@ -58,12 +58,12 @@ void draw() {
   for (int y=0; y<=500; y+=onemorescale) {
     for (int x=0; x<=500; x+= onemorescale) {
       pushMatrix();
-      translate(1200+x,500+y);
-      float distant = dist(lastx, lasty,1200+x,500+y);
+      translate(x,y);
+      float distant = dist(lastx, lasty,x,y);
       
       if (distant<=fade){
         color c = img.get(int(x),int(y));
-        fill(c);
+        fill(c,150);
         ellipse(0,0,onemorescale,onemorescale);
       }
       popMatrix();
